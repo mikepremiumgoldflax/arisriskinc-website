@@ -184,7 +184,7 @@ section { position: relative; }
   .hero-actions, .trust { align-items: center; justify-content: center; }
   .trust { align-items: flex-start; max-width: 380px; margin: 0 auto; }
   .hero-emblem { order: -1; }
-  .hero-emblem img { width: 220px; }
+  .hero-emblem img { width: 150px; }
 }
 
 /* ---------- cards / grids ---------- */
