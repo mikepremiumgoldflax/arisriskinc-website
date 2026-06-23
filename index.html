@@ -299,5 +299,26 @@
   </footer>
 
   <script src="/app.js"></script>
+  <script>
+    // Track clicks on Contact (mailto) CTAs as GA4 events
+    (function () {
+      function ctaLocation(el) {
+        if (el.closest('.cta-final')) return 'final_cta';
+        if (el.closest('.hero')) return 'hero';
+        if (el.closest('.nav-cta') || el.closest('header') || el.closest('nav')) return 'nav';
+        return 'other';
+      }
+      document.querySelectorAll('a[href^="mailto:press@arisriskinc.com"]').forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (typeof gtag === 'function') {
+            gtag('event', 'generate_lead', {
+              method: 'email',
+              cta_location: ctaLocation(link)
+            });
+          }
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
