@@ -255,26 +255,6 @@ section { position: relative; }
 .founder .links svg { width: 16px; height: 16px; }
 @media (max-width: 520px){ .founder { flex-direction: column; } }
 
-/* ---------- final CTA ---------- */
-.cta-final { text-align: center; }
-.cta-final::before {
-  content: ""; position: absolute; inset: 0; z-index: 0;
-  background: radial-gradient(600px 300px at 50% 20%, rgba(255,106,26,.16), transparent 70%);
-}
-.cta-final .container { position: relative; z-index: 1; max-width: 760px; }
-.cta-final h2 { font-family: var(--font-head); font-weight: 900; color: var(--white); font-size: clamp(2rem,4.4vw,3.2rem); line-height: 1.08; letter-spacing: -.02em; }
-.cta-final p { margin: 22px auto 0; color: var(--slate-300); font-size: 1.1rem; max-width: 560px; }
-.cta-final .emails { margin-top: 30px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-
-/* ---------- footer ---------- */
-.footer { border-top: 1px solid var(--line); background: var(--navy-0); padding: 44px 0; }
-.footer .container { display: flex; align-items: center; justify-content: space-between; gap: 26px; flex-wrap: wrap; }
-.footer .brand .name { font-size: .98rem; }
-.footer-links { display: flex; gap: 26px; flex-wrap: wrap; }
-.footer-links a { font-size: .9rem; color: var(--slate-400); transition: color .15s; }
-.footer-links a:hover { color: var(--fire-1); }
-.footer .copy { color: var(--slate-500); font-size: .84rem; width: 100%; text-align: center; margin-top: 8px; }
-
 /* ---------- scroll reveal ---------- */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
 .reveal.in { opacity: 1; transform: none; }
