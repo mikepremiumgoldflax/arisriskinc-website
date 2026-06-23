@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>ARIS Risk — Tracking Command Center</title>
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
+  <style>
+    :root{
+      --navy-0:#070e1b; --navy-1:#0a1424; --navy-3:#111f38; --navy-4:#16263f;
+      --line:rgba(255,255,255,.08); --white:#f7fafc; --slate-300:#cbd5e1;
+      --slate-400:#94a3b8; --fire-1:#ff6a1a; --fire-3:#ffb43a;
+      --grad-fire:linear-gradient(100deg,#ff6a1a 0%,#ff8f2e 45%,#ffb43a 100%);
+      --grad-fire-text:linear-gradient(100deg,#ff8a2c 0%,#ffb43a 100%);
+      --shadow-card:0 18px 40px -22px rgba(0,0,0,.7);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:"Inter",system-ui,sans-serif;background:var(--navy-1);
+      color:var(--slate-300);min-height:100vh;padding:48px 20px;
+      background-image:radial-gradient(900px 500px at 50% -10%,rgba(255,106,26,.10),transparent 60%);
+    }
+    .wrap{max-width:980px;margin:0 auto;}
+    .eyebrow{color:var(--fire-1);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;}
+    h1{font-family:"Outfit",system-ui,sans-serif;color:var(--white);font-size:2.2rem;margin:10px 0 6px;font-weight:800;}
+    h1 .grad{background:var(--grad-fire-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+    .sub{color:var(--slate-400);max-width:640px;margin-bottom:36px;line-height:1.55;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+    .tile{
+      display:block;background:var(--navy-3);border:1px solid var(--line);
+      border-radius:16px;padding:24px;box-shadow:var(--shadow-card);
+      transition:transform .15s ease,border-color .15s ease,background .15s ease;
+    }
+    .tile:hover{transform:translateY(-4px);border-color:var(--fire-1);background:var(--navy-4);}
+    .tile .ico{font-size:1.8rem;margin-bottom:14px;}
+    .tile h3{font-family:"Outfit",system-ui,sans-serif;color:var(--white);font-size:1.15rem;margin-bottom:6px;}
+    .tile p{color:var(--slate-400);font-size:.9rem;line-height:1.5;}
+    .tile .go{display:inline-block;margin-top:14px;color:var(--fire-3);font-weight:700;font-size:.85rem;}
+    .note{margin-top:40px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);font-size:.88rem;color:var(--slate-400);line-height:1.6;}
+    .note strong{color:var(--slate-300);}
+    .status{display:inline-flex;align-items:center;gap:7px;margin-top:8px;font-size:.8rem;color:#7CFFB2;}
+    .dot{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399;}
+    footer{margin-top:36px;color:#6b7c93;font-size:.8rem;}
+    footer a{color:var(--fire-3);}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">ARIS Risk · Internal</p>
+    <h1>Tracking <span class="grad">Command Center</span></h1>
+    <p class="sub">One-click access to everything watching your site. The automation runs on its own — these tiles just open each dashboard.</p>
+    <div class="status"><span class="dot"></span> Tracking is live &amp; collecting automatically</div>
+
+    <div class="grid" style="margin-top:28px;">
+      <a class="tile" href="https://analytics.google.com/" target="_blank" rel="noopener">
+        <div class="ico">📊</div>
+        <h3>Google Analytics</h3>
+        <p>Traffic, geography, and who clicks "Contact." Check <em>Reports → Realtime</em>.</p>
+        <span class="go">Open GA →</span>
+      </a>
+      <a class="tile" href="https://app.leadfeeder.com/" target="_blank" rel="noopener">
+        <div class="ico">🏢</div>
+        <h3>Leadfeeder</h3>
+        <p>Which companies &amp; industries visited your site. Your B2B visitor list.</p>
+        <span class="go">Open Leadfeeder →</span>
+      </a>
+      <a class="tile" href="https://docs.google.com/spreadsheets/u/0/" target="_blank" rel="noopener">
+        <div class="ico">📋</div>
+        <h3>Leads Sheet</h3>
+        <p>Every lead auto-logged by Zapier. Open the "Leadfeeder Leads" sheet.</p>
+        <span class="go">Open Sheet →</span>
+      </a>
+      <a class="tile" href="https://zapier.com/app/dashboard" target="_blank" rel="noopener">
+        <div class="ico">⚡</div>
+        <h3>Zapier</h3>
+        <p>The automation that emails you &amp; fills the sheet. Check Zap history here.</p>
+        <span class="go">Open Zapier →</span>
+      </a>
+    </div>
+
+    <div class="note">
+      <strong>How it works (no clicks needed):</strong> A visitor lands on the site → Google Analytics records the traffic → Leadfeeder identifies the company → you get an instant email at mmarshall@arisriskinc.com → Zapier logs the lead into the Google Sheet. It all happens automatically, 24/7.
+      <br><br>
+      <strong>Tip:</strong> Bookmark this page (<em>arisriskinc.com/dashboard.html</em>) for one-tap access. It's set to <em>noindex</em>, so it won't show up in Google search — but it is technically reachable if someone guesses the URL. All the tools behind these links still require your own login.
+    </div>
+
+    <footer>
+      © 2026 ARIS Risk Inc. · Internal tracking dashboard · <a href="/">← Back to site</a>
+    </footer>
+  </div>
+</body>
+</html>
