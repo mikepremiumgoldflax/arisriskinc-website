@@ -1,0 +1,31 @@
+{
+  "name": "Jared Fehr \u2014 ARIS Risk",
+  "short_name": "Jared \u00b7 ARIS",
+  "description": "Digital business card \u2014 Jared Fehr, Co-Founder & Chairman, ARIS Risk Inc.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0a1424",
+  "background_color": "#0a1424",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
