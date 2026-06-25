@@ -7,12 +7,6 @@ on:
   schedule:
     - cron: "0 13 * * 1-5"
   workflow_dispatch: {}
-  # TEMPORARY one-shot trigger: fires a run when briefing/run.py lands on
-  # gh-pages, so we can execute the pipeline once now. Removed immediately
-  # after, leaving the weekday-only schedule above.
-  push:
-    branches: [gh-pages]
-    paths: ["briefing/run.py"]
 
 jobs:
   briefing:
