@@ -1,49 +1,83 @@
-# ARIS Risk Inc. — Website
+# ARIS Risk Inc.
 
-Marketing site for ARIS Risk Inc. — parcel-level wildfire risk intelligence for P&C insurance.
+Monorepo for ARIS Risk Inc. — parcel-level wildfire risk intelligence for P&C insurance.
+It holds three independent parts: the **marketing site**, a **daily intelligence
+briefing** automation, and **Pepper Botts**, the agentic AI executive assistant.
 
-Live: **https://www.arisriskinc.com** (GitHub Pages, custom domain via `CNAME`).
+Live site: **https://www.arisriskinc.com** (GitHub Pages, custom domain via `CNAME`).
 
-## What this is
+## Repository layout
 
-A hand-built, dependency-free **static site**. No framework, no build step — the files in
-this repo *are* the site. Open `index.html` in a browser, or serve the folder:
+```
+arisriskinc-website/
+│
+├── Website  (static site, served by GitHub Pages from the repo root)
+│   ├── index.html              # single-page marketing site
+│   ├── dashboard.html          # internal dashboard
+│   ├── styles.css              # design system + all component styles
+│   ├── app.js                  # nav, mobile menu, scroll animations
+│   ├── assets/                 # logo, hero image, founder avatars, OG card
+│   ├── mike/  ·  jared/        # installable web-app business cards (PWA)
+│   ├── favicon-64.png · apple-touch-icon.png
+│   ├── CNAME · .nojekyll       # GitHub Pages config (must stay at root)
+│
+├── briefing/   📰  Daily Intelligence Briefing — automated morning audio briefing
+│   └── README.md               # gather news → Claude script → MP3 → Telegram
+│
+├── pepper/     🤖  Pepper Botts — agentic AI executive assistant (Telegram)
+│   └── README.md               # chat assistant: research, email, reminders, tasks
+│
+└── .github/workflows/          # CI / scheduled automation (daily-briefing.yml)
+```
+
+Each subsystem is self-contained and documented in its own `README.md`. The two
+Python packages (`briefing/`, `pepper/`) are kept separate from the static site so
+nothing about the automations affects what GitHub Pages serves.
+
+> **Why the site files live at the repo root:** GitHub Pages publishes the repo
+> root, and the pages link assets with absolute paths (`/styles.css`, `/assets/…`).
+> Keeping them at root is what keeps the live site working — so the root stays the
+> website, and all tooling lives in clearly-named subfolders.
+
+---
+
+## 1. Website
+
+A hand-built, dependency-free **static site** — no framework, no build step. The
+files in the repo root *are* the site.
 
 ```bash
 python3 -m http.server 8000   # then open http://localhost:8000
 ```
 
-## Structure
+**Brand:** Outfit (headings) + Inter (body); color tokens are CSS variables in
+`:root` at the top of `styles.css` (navy `#0a1424`, fire `#ff6a1a` → amber `#ffb43a`).
+The logo mark is `assets/aris-emblem.png`, reused in nav, hero, footer, and favicons.
 
-| File | Purpose |
-|------|---------|
-| `index.html` | All page markup and copy (single-page site) |
-| `styles.css` | Design system + every component style (CSS variables at the top) |
-| `app.js` | Sticky nav, mobile menu, scroll-reveal animations |
-| `assets/aris-emblem.svg` | Primary logo mark (house-shield + flame) |
-| `favicon.svg`, `favicon-64.png`, `apple-touch-icon.png` | Favicons |
-| `assets/og-image.png` | Social share card (1200×630) |
-| `assets/hero-fire.jpg` | Hero background (wildfire, on-brand) |
-| `assets/avatar-mike.jpg`, `assets/avatar-jared.jpg` | **Placeholder** founder avatars |
+**Deploy:** GitHub Pages serves the repo root; commit to the deploy branch and Pages
+publishes. `CNAME` and `.nojekyll` must stay at the root.
 
-## Brand
+## 2. Daily Intelligence Briefing → [`briefing/`](briefing/README.md)
 
-- **Type:** Outfit (headings, 800–900) + Inter (body) — loaded from Google Fonts.
-- **Color tokens:** defined as CSS variables in `:root` at the top of `styles.css`
-  (navy `--navy-1` `#0a1424`, fire `--fire-1` `#ff6a1a` → amber `--fire-3` `#ffb43a`).
-- **Logo:** `assets/aris-emblem.svg` — edit once, used in nav, hero, footer, and favicons.
+A weekday-morning pipeline: it searches AI / InsurTech / wildfire news, has Claude
+write a sharp executive narration script, renders it to an MP3 with a neural voice,
+and delivers it to Telegram. Runs on GitHub Actions
+(`.github/workflows/daily-briefing.yml`) or locally with `python -m briefing.run`.
 
-## TODO before launch (needs real assets)
+## 3. Pepper Botts → [`pepper/`](pepper/README.md)
 
-The original Manus build referenced media that was never committed to the repo, so these are
-on-brand placeholders. Drop in the real files (keep the same filename, or update the `src`):
+The agentic AI executive assistant you chat with in Telegram
+([@Pepper_BottsBot](https://t.me/Pepper_BottsBot)). Powered by Claude with real
+tool-use — it researches the web, drafts and sends email, sets reminders, tracks
+tasks, can trigger the daily briefing on demand, and sends a Bible verse every
+morning at 8 AM. Self-hosted as one long-running process: `python -m pepper.run`.
 
-- **Founder headshots** → replace `assets/avatar-mike.jpg` and `assets/avatar-jared.jpg`
-  (square, ≥240×240). Currently monogram tiles (MM / JF).
-- **Hero video (optional)** → if you want motion back, add the `.mp4` and swap the
-  `.hero-bg` element/CSS for a `<video>`.
+---
 
-## Deploy
+## Secrets & configuration
 
-GitHub Pages serves the repo root. Commit to the deploy branch and Pages publishes it.
-`CNAME` and `.nojekyll` must stay at the root.
+No secrets are committed. The automations read everything from environment
+variables (and a git-ignored `.env` for local runs). For GitHub Actions, set them
+under **Settings → Secrets and variables → Actions**. See each subsystem's README
+for the exact keys it needs (`ANTHROPIC_API_KEY`, `TELEGRAM_BOT_TOKEN`,
+`PEPPER_BOT_TOKEN`, `TAVILY_API_KEY`, Gmail app password, etc.).
