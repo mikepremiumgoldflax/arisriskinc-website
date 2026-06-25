@@ -7,6 +7,12 @@ on:
   schedule:
     - cron: "0 13 * * 1-5"
   workflow_dispatch: {}
+  # TEMPORARY one-shot trigger: fires a run when briefing/run.py lands on
+  # gh-pages, so we can execute the pipeline once now. Removed immediately
+  # after, leaving the weekday-only schedule above.
+  push:
+    branches: [gh-pages]
+    paths: ["briefing/run.py"]
 
 jobs:
   briefing:
@@ -31,6 +37,8 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           ARIS_EMAIL_TO: ${{ vars.ARIS_EMAIL_TO || 'admin@arisriskinc.com' }}

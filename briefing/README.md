@@ -12,16 +12,16 @@ with a neural voice, and emails the result to the team every morning.
 | 2. Script Generation | Synthesizes the raw text into the ARIS executive script | Claude (`claude-opus-4-8`) |
 | 3. Audio Synthesis | Renders the script to MP3 | `edge-tts`, voice `en-US-GuyNeural` |
 | Verify | Confirms the audio is under ~8 minutes | `ffprobe` (ffmpeg) |
-| Deliver | Emails the script + MP3 | Gmail SMTP |
+| Deliver | Sends the MP3 (playable audio + phone push) and the script | Telegram bot (email is an optional fallback) |
 
 The targeted queries cover: general AI news, InsurTech & competitors (ZestyAI, CoreLogic,
 Cape Analytics), and California wildfire risk & regulation (FAIR Plan, CDI, State Farm).
 
 ## Running it every morning (GitHub Actions)
 
-The workflow `.github/workflows/daily-briefing.yml` runs the pipeline daily on a cron
-schedule (`0 13 * * *` UTC = 6 AM Pacific) and can also be triggered manually from the
-**Actions** tab ("Run workflow").
+The workflow `.github/workflows/daily-briefing.yml` runs the pipeline on a weekday cron
+schedule (`0 13 * * 1-5` UTC = 6 AM Pacific, Mon–Fri) and can also be triggered manually
+from the **Actions** tab ("Run workflow").
 
 ### One-time setup — add these repository secrets
 
@@ -31,14 +31,17 @@ schedule (`0 13 * * *` UTC = 6 AM Pacific) and can also be triggered manually fr
 |--------|-----------------|
 | `ANTHROPIC_API_KEY` | https://console.anthropic.com → API Keys |
 | `TAVILY_API_KEY` | https://tavily.com (free tier) — recommended for fresh sources |
-| `GMAIL_USERNAME` | the Gmail address that sends the briefing |
-| `GMAIL_APP_PASSWORD` | https://myaccount.google.com/apppasswords (requires 2FA) |
+| `TELEGRAM_BOT_TOKEN` | message **@BotFather** on Telegram → `/newbot` → copy the token |
+| `TELEGRAM_CHAT_ID` | message **@userinfobot** for your numeric id, then DM your new bot once so it can message you |
+| `GMAIL_USERNAME` | *(optional)* Gmail address — only if you want email as a fallback |
+| `GMAIL_APP_PASSWORD` | *(optional)* https://myaccount.google.com/apppasswords (requires 2FA) |
 
-Optionally set a repository **variable** `ARIS_EMAIL_TO` to change the recipient
-(defaults to `admin@arisriskinc.com`).
+Delivery is **Telegram-first**: if `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` are set, the
+briefing goes there. Email is used only as a fallback when Telegram isn't configured.
 
 > Without `TAVILY_API_KEY` the pipeline falls back to scraping a fixed list of source
-> URLs, which is less fresh. The other three secrets are required for a full run.
+> URLs, which is less fresh. `ANTHROPIC_API_KEY` and the Telegram secrets are required
+> for a full, delivered run.
 
 ## Running it locally
 
@@ -47,14 +50,14 @@ pip install -r briefing/requirements.txt
 
 export ANTHROPIC_API_KEY=sk-ant-...
 export TAVILY_API_KEY=tvly-...
-export GMAIL_USERNAME=you@gmail.com
-export GMAIL_APP_PASSWORD=...          # optional locally; omit to skip email
+export TELEGRAM_BOT_TOKEN=123456:ABC...
+export TELEGRAM_CHAT_ID=123456789
 
 python -m briefing.run
 ```
 
 Outputs are written to `briefing/output/` (`narration_script_<date>.txt` and
-`ARIS_Briefing_<date>.mp3`) and emailed if Gmail credentials are present.
+`ARIS_Briefing_<date>.mp3`) and sent to Telegram if the bot credentials are present.
 
 ## Configuration knobs (all optional env vars)
 

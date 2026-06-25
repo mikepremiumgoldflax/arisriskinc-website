@@ -36,7 +36,14 @@ SCRIPT_MODEL = os.environ.get("ARIS_SCRIPT_MODEL", "claude-opus-4-8")
 # edge-tts neural voice — the original ARIS default (professional male American).
 TTS_VOICE = os.environ.get("ARIS_TTS_VOICE", "en-US-GuyNeural")
 
-# --- Delivery: email ----------------------------------------------------------
+# --- Delivery: Telegram (primary) --------------------------------------------
+# A Telegram bot sends the MP3 as a playable audio message with a phone push.
+#   Bot token: message @BotFather -> /newbot
+#   Chat id:   message @userinfobot (then DM your bot once so it can reply)
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
+
+# --- Delivery: email (optional fallback) -------------------------------------
 # Use a Gmail account + App Password (https://myaccount.google.com/apppasswords).
 GMAIL_USERNAME = os.environ.get("GMAIL_USERNAME", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
