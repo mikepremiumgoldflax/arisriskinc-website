@@ -14,7 +14,7 @@ import datetime
 import os
 import sys
 
-from . import config, deliver, phase1_gather, phase2_script, phase3_audio
+from . import config, deliver, deliver_telegram, phase1_gather, phase2_script, phase3_audio
 
 
 def main() -> int:
@@ -44,8 +44,10 @@ def main() -> int:
     # Verify — duration (best-effort; needs ffmpeg)
     phase3_audio.check_audio_duration(mp3_path)
 
-    # Deliver — email
-    deliver.email_briefing(script, mp3_path, today)
+    # Deliver — Telegram (primary); fall back to email only if Telegram isn't set.
+    sent = deliver_telegram.deliver_telegram(script, mp3_path, today)
+    if not sent:
+        deliver.email_briefing(script, mp3_path, today)
 
     print(f"\nDone. Script: {script_path}\n      Audio:  {mp3_path}")
     return 0
