@@ -1,0 +1,45 @@
+name: ARIS Daily Intelligence Briefing
+
+# Runs every morning and on-demand. The cron is in UTC.
+# 13:00 UTC = 6:00 AM Pacific (PDT) / 8:00 AM Central (CDT).
+on:
+  schedule:
+    - cron: "0 13 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  briefing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ffmpeg (for duration check)
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install dependencies
+        run: pip install -r briefing/requirements.txt
+
+      - name: Run the briefing pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          ARIS_EMAIL_TO: ${{ vars.ARIS_EMAIL_TO || 'admin@arisriskinc.com' }}
+        run: python -m briefing.run
+
+      - name: Upload briefing as a workflow artifact (backstop)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aris-briefing
+          path: briefing/output/
+          if-no-files-found: ignore
+          retention-days: 14
