@@ -18,8 +18,9 @@ python3 -m http.server 8000   # then open http://localhost:8000
 | File | Purpose |
 |------|---------|
 | `index.html` | All page markup and copy (single-page site) |
+| `insights/` | Content hub — `index.html` + one HTML file per article (drives content velocity) |
 | `styles.css` | Design system + every component style (CSS variables at the top) |
-| `app.js` | Sticky nav, mobile menu, scroll-reveal animations |
+| `app.js` | Sticky nav, mobile menu, scroll-reveal, video modal, interactive parcel map |
 | `assets/aris-emblem.svg` | Primary logo mark (house-shield + flame) |
 | `favicon.svg`, `favicon-64.png`, `apple-touch-icon.png` | Favicons |
 | `assets/og-image.png` | Social share card (1200×630) |
@@ -40,8 +41,27 @@ on-brand placeholders. Drop in the real files (keep the same filename, or update
 
 - **Founder headshots** → replace `assets/avatar-mike.jpg` and `assets/avatar-jared.jpg`
   (square, ≥240×240). Currently monogram tiles (MM / JF).
-- **Hero video (optional)** → if you want motion back, add the `.mp4` and swap the
-  `.hero-bg` element/CSS for a `<video>`.
+- **Hero briefing video (high priority)** → drop the 60–90s hero video at
+  `assets/aris-briefing.mp4` (fire footage cut with parcel maps lighting up, founder VO
+  over the sealed forecast). The "Watch the briefing" button opens a modal wired to that
+  path; until the file exists, the modal shows a graceful "request the briefing" fallback.
+  No code change needed — adding the file is enough.
+
+## Conversion layer (added)
+
+The homepage is built to convert, not just educate:
+
+- **Proof band** (`#proof`) — stat tiles + diligence badges ("built to survive real
+  actuarial scrutiny"). Update the numbers/claims in `index.html` as proof firms up.
+- **Interactive parcel visual** (`#difference`) — side-by-side ZIP-vs-parcel maps,
+  generated in `app.js` (deterministic so it renders the same every load; hover a parcel
+  for its score/tier).
+- **Lead magnets** (`#start`) — three CTAs: *Get the Sealed 2026 Forecast Brief*,
+  *Book a 15-min technical walkthrough*, *Request pilot access*. Each is a pre-filled
+  `mailto:` and is tracked as a GA4 `generate_lead` event with a `cta_location`.
+- **Insights hub** (`/insights/`) — weekly-post structure. Add a new article by copying an
+  existing file in `insights/`, then add a card to `insights/index.html` and the homepage
+  `#insights` grid.
 
 ## Deploy
 
