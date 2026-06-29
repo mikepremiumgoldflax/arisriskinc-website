@@ -16,6 +16,10 @@ import anthropic
 
 from . import config
 
+# How many times to regenerate when the sourcing gate rejects a draft before
+# failing closed. Each retry feeds the exact rejection back to the model.
+MAX_TRIES = 3
+
 SYSTEM_PROMPT = """\
 You are the analyst who writes the weekly "Insights" essay for ARIS Risk Inc., a \
 company that sells parcel-level, physics-grounded wildfire risk intelligence to \
@@ -107,43 +111,68 @@ def write_article(
         "evergreen analytical essay grounded only in established, widely-known " \
         "industry dynamics, and do not invent specifics.)"
 
-    user_message = (
+    base_message = (
         f"Today is {today.strftime('%A, %B %-d, %Y')}.\n\n"
         f"RECENT POST TITLES (do not repeat these angles):\n{recent}\n\n"
         f"SOURCE MATERIAL:\n{sources}\n\n"
         "Write one new ARIS Insights post as the JSON object specified."
     )
 
-    with client.messages.stream(
-        model=config.WRITER_MODEL,
-        max_tokens=8000,
-        thinking={"type": "adaptive"},
-        output_config={"effort": "high"},
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": user_message}],
-    ) as stream:
-        message = stream.get_final_message()
-
-    text = "".join(b.text for b in message.content if b.type == "text")
-    article = _coerce_json(text)
-
     required = {"kicker", "title", "slug", "description", "lede",
                 "body_html", "card_summary", "sources"}
-    missing = required - article.keys()
-    if missing:
-        raise ValueError(f"Model output missing keys: {sorted(missing)}")
 
-    # Defense-in-depth: never let a stray script tag through.
-    article["body_html"] = re.sub(
-        r"<script.*?</script>", "", article["body_html"], flags=re.S | re.I
+    # Generate, then enforce sourcing. If a citation isn't traceable to the
+    # gathered material, feed the exact problem back and let the model repair it
+    # rather than discarding a good post. Still fails closed after MAX_TRIES, so
+    # nothing unsourced can ever ship.
+    feedback = ""
+    last_error: Exception | None = None
+    for attempt in range(1, MAX_TRIES + 1):
+        with client.messages.stream(
+            model=config.WRITER_MODEL,
+            max_tokens=8000,
+            thinking={"type": "adaptive"},
+            output_config={"effort": "high"},
+            system=SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": base_message + feedback}],
+        ) as stream:
+            message = stream.get_final_message()
+
+        text = "".join(b.text for b in message.content if b.type == "text")
+        try:
+            article = _coerce_json(text)
+            missing = required - article.keys()
+            if missing:
+                raise ValueError(f"Model output missing keys: {sorted(missing)}")
+            # Defense-in-depth: never let a stray script tag through.
+            article["body_html"] = re.sub(
+                r"<script.*?</script>", "", article["body_html"], flags=re.S | re.I
+            )
+            _enforce_sourcing(article, raw_source_text)
+        except ValueError as e:
+            last_error = e
+            print(f"Attempt {attempt}/{MAX_TRIES} rejected: {e}")
+            feedback = (
+                f"\n\nYOUR PREVIOUS ATTEMPT WAS REJECTED: {e}\n"
+                "Rewrite the entire post and return the full JSON again. Use ONLY "
+                "URLs that appear verbatim in the SOURCE MATERIAL above — for every "
+                "inline <a href> citation AND every entry in the sources array. If a "
+                "claim depended on a URL that is not in the SOURCE MATERIAL, either "
+                "re-source it to one that is, or remove that claim entirely. Do not "
+                "invent, guess, or lightly edit URLs."
+            )
+            continue
+
+        n = len(article["sources"])
+        print(f"Write complete on attempt {attempt}: \"{article['title']}\" "
+              f"({len(article['body_html'].split())} words, {n} source(s) cited).")
+        return article
+
+    # Exhausted retries — fail closed (an unsourced post must never ship).
+    raise ValueError(
+        f"Could not produce a fully-sourced post after {MAX_TRIES} attempts. "
+        f"Last error: {last_error}"
     )
-
-    _enforce_sourcing(article, raw_source_text)
-
-    n = len(article["sources"])
-    print(f"Write complete: \"{article['title']}\" "
-          f"({len(article['body_html'].split())} words, {n} source(s) cited).")
-    return article
 
 
 def _norm_url(u: str) -> str:
