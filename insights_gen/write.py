@@ -29,9 +29,18 @@ exclamation marks, no "in today's fast-paced world" filler. Make a real argument
 Match the style of a senior analyst writing for peers who can smell BS.
 
 HARD RULES — these protect the company and are non-negotiable:
-- Do NOT fabricate statistics, dollar figures, dates, percentages, quotes, or \
-study results. If you reference a real development, it must be supportable from \
-the SOURCE MATERIAL provided. Otherwise argue qualitatively.
+- SOURCING IS MANDATORY. Every specific, checkable claim — any statistic, dollar \
+figure, percentage, date, named event, named place, named organization, or direct \
+quotation — MUST come from the SOURCE MATERIAL and MUST carry an inline citation: \
+wrap the claim in <a href="EXACT-URL-FROM-SOURCE-MATERIAL">…</a> pointing to the \
+source it came from. Use ONLY URLs that appear verbatim in the SOURCE MATERIAL — \
+never invent, guess, or modify a URL.
+- If a specific claim is not supported by the SOURCE MATERIAL, DO NOT make it — \
+argue qualitatively instead. When in doubt, leave it out.
+- If the SOURCE MATERIAL is empty or thin, write an evergreen analytical essay \
+with NO specific statistics, dates, named events, or quotations, and return an \
+empty "sources" array. A sourced qualitative piece is always better than an \
+unsourced specific one.
 - Do NOT claim ARIS has any customers, signed partners, pilots, or specific \
 deals. Do NOT name any specific company as an ARIS partner or customer. Never \
 mention "Verisk" at all.
@@ -57,11 +66,17 @@ fences). Keys:
   "lede": one strong opening paragraph, plain text, no HTML tags.
   "body_html": the article body as clean HTML, 550-850 words. Use ONLY these \
 tags: <h2>, <p>, <ul>, <li>, <strong>, <blockquote>, and <a href="...">. \
-Include at least two <h2> headings and one <blockquote>. Do NOT include <h1>, \
-<script>, <style>, <img>, inline styles, or class attributes. End by connecting \
-the argument to the way ARIS approaches the problem.
+Include at least two <h2> headings and one <blockquote>. Every specific claim \
+must carry an inline <a href="..."> citation as described in the HARD RULES. Do \
+NOT include <h1>, <script>, <style>, <img>, inline styles, or class attributes. \
+Any external link (https://...) you use MUST be a URL from the SOURCE MATERIAL. \
+End by connecting the argument to the way ARIS approaches the problem.
   "card_summary": a 1-2 sentence teaser for the article card, plain text, \
 <= 200 characters.
+  "sources": an array of {"title": "...", "url": "..."} objects, one for EVERY \
+source you cited inline. Each "url" MUST appear verbatim in the SOURCE MATERIAL. \
+Include only sources you actually cited; if you made no specific sourced claims, \
+return an empty array [].
 """
 
 
@@ -112,7 +127,8 @@ def write_article(
     text = "".join(b.text for b in message.content if b.type == "text")
     article = _coerce_json(text)
 
-    required = {"kicker", "title", "slug", "description", "lede", "body_html", "card_summary"}
+    required = {"kicker", "title", "slug", "description", "lede",
+                "body_html", "card_summary", "sources"}
     missing = required - article.keys()
     if missing:
         raise ValueError(f"Model output missing keys: {sorted(missing)}")
@@ -121,5 +137,49 @@ def write_article(
     article["body_html"] = re.sub(
         r"<script.*?</script>", "", article["body_html"], flags=re.S | re.I
     )
-    print(f"Write complete: \"{article['title']}\" ({len(article['body_html'].split())} words).")
+
+    _enforce_sourcing(article, raw_source_text)
+
+    n = len(article["sources"])
+    print(f"Write complete: \"{article['title']}\" "
+          f"({len(article['body_html'].split())} words, {n} source(s) cited).")
     return article
+
+
+def _norm_url(u: str) -> str:
+    """Normalize a URL for set membership: drop scheme, fragment, trailing slash."""
+    u = (u or "").strip().strip("<>\"'").split("#")[0]
+    u = re.sub(r"^https?://", "", u)
+    return u.rstrip("/").lower()
+
+
+# Links to our own site are always allowed (internal navigation / CTAs).
+_SELF_HOSTS = ("arisriskinc.com",)
+
+
+def _enforce_sourcing(article: dict, raw_source_text: str) -> None:
+    """Hard gate: every cited source and every external link in the body must
+    correspond to a URL that actually appeared in the gathered SOURCE MATERIAL.
+    Fabricated or uncited links fail the build so nothing unsourced ships."""
+    gathered = {_norm_url(u) for u in re.findall(r"URL:\s*(\S+)", raw_source_text)}
+
+    if not isinstance(article.get("sources"), list):
+        raise ValueError("`sources` must be an array.")
+
+    def _allowed(url: str) -> bool:
+        n = _norm_url(url)
+        if any(n == h or n.startswith(h + "/") for h in _SELF_HOSTS):
+            return True
+        return any(n == g or n.startswith(g) or g.startswith(n) for g in gathered)
+
+    # 1) Every declared source must trace back to the gathered material.
+    bad_sources = [s.get("url") for s in article["sources"]
+                   if not isinstance(s, dict) or not _allowed(s.get("url", ""))]
+    if bad_sources:
+        raise ValueError(f"Uncited/fabricated source URL(s) not in SOURCE MATERIAL: {bad_sources}")
+
+    # 2) Every external link embedded in the body must also be a gathered source.
+    body_links = re.findall(r'href="(https?://[^"]+)"', article["body_html"])
+    bad_links = [u for u in body_links if not _allowed(u)]
+    if bad_links:
+        raise ValueError(f"Body links not backed by SOURCE MATERIAL: {bad_links}")
