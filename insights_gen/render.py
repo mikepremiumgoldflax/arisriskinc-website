@@ -123,8 +123,24 @@ def _esc_text(s: str) -> str:
     return html.escape(s, quote=False)
 
 
+def _sources_html(article: dict) -> str:
+    """Render a visible Sources list from the cited sources (empty if none)."""
+    sources = article.get("sources") or []
+    if not sources:
+        return ""
+    items = "".join(
+        f'<li><a href="{_esc_attr(s["url"])}" rel="nofollow noopener" '
+        f'target="_blank">{_esc_text(s.get("title") or s["url"])}</a></li>'
+        for s in sources if isinstance(s, dict) and s.get("url")
+    )
+    return f"<h2>Sources</h2>\n<ul>{items}</ul>" if items else ""
+
+
 def render_article_html(article: dict, today: datetime.date) -> str:
     body = article["body_html"].strip()
+    sources = _sources_html(article)
+    if sources:
+        body = f"{body}\n{sources}"
     # Indent body lines by 4 spaces to sit inside <article>.
     body = "\n".join(("    " + ln) if ln.strip() else ln for ln in body.splitlines())
     replacements = {

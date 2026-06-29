@@ -14,6 +14,13 @@ of an audio briefing for the team, it produces a website article.
    and returns it as strict JSON. The prompt has hard guardrails: no fabricated
    stats, no claimed customers/partners, never names "Verisk", and only asserts
    ARIS capabilities already established on the site.
+   - **Mandatory sourcing.** Every specific claim (stat, date, named event,
+     quotation) must carry an inline `<a href>` citation to a URL from the
+     gathered material, and the post returns a `sources` array. `write.py` then
+     **hard-fails the build** if any cited source — or any external link in the
+     body — isn't a URL that actually appeared in the gathered sources, so
+     nothing unsourced can ship. With no sources gathered, the post stays
+     qualitative (no specifics) and lists no sources.
 3. **Render** — writes `insights/<slug>.html` from the shared template and
    splices a card into the hub (`insights/index.html`, keeps all) and the
    homepage (`index.html`, keeps the newest 3) via the `INSIGHTS:CARDS` markers.
