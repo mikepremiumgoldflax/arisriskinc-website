@@ -1,3 +1,14 @@
+/* Self-hosted brand fonts — Outfit (headings) + Inter (body). Replaces render-blocking Google Fonts. */
+@font-face{font-family:'Outfit';font-style:normal;font-weight:500;font-display:swap;src:url('/assets/fonts/outfit-500.woff2') format('woff2');}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:600;font-display:swap;src:url('/assets/fonts/outfit-600.woff2') format('woff2');}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:700;font-display:swap;src:url('/assets/fonts/outfit-700.woff2') format('woff2');}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:800;font-display:swap;src:url('/assets/fonts/outfit-800.woff2') format('woff2');}
+@font-face{font-family:'Outfit';font-style:normal;font-weight:900;font-display:swap;src:url('/assets/fonts/outfit-900.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('/assets/fonts/inter-400.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url('/assets/fonts/inter-500.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url('/assets/fonts/inter-600.woff2') format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url('/assets/fonts/inter-700.woff2') format('woff2');}
+
 /* ============================================================
    ARIS Risk Inc. — brand stylesheet
    Navy + fire. Built to look hand-made, not generated.
@@ -255,11 +266,8 @@ section { position: relative; }
 .founder .links svg { width: 16px; height: 16px; }
 @media (max-width: 520px){ .founder { flex-direction: column; } }
 
-/* ---------- scroll reveal ---------- */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
-.reveal.in { opacity: 1; transform: none; }
+/* ---------- scroll reveal: removed — content paints immediately (.reveal is now inert) ---------- */
 @media (prefers-reduced-motion: reduce){
-  .reveal { opacity: 1; transform: none; transition: none; }
   .hero-emblem::before { animation: none; }
   html { scroll-behavior: auto; }
 }
