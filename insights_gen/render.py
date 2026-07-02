@@ -53,7 +53,7 @@ ARTICLE_TEMPLATE = """<!doctype html>
   <header class="nav scrolled" id="nav">
     <div class="container">
       <a class="brand" href="/" aria-label="ARIS Risk Inc. home">
-        <img class="mark" src="/assets/aris-emblem.png" alt="ARIS Risk Inc." />
+        <img class="mark" src="/assets/aris-emblem.webp" alt="ARIS Risk Inc." />
         <span class="name">ARIS RISK INC.</span>
       </a>
       <nav class="nav-links" aria-label="Primary">
