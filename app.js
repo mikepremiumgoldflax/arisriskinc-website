@@ -58,55 +58,6 @@
 (function () {
   "use strict";
 
-  /* ---------- Video modal ---------- */
-  var modal = document.getElementById("videoModal");
-  var openBtn = document.getElementById("heroPlay");
-  var closeBtn = document.getElementById("videoClose");
-  var video = document.getElementById("arisVideo");
-  var fallback = document.getElementById("videoFallback");
-
-  if (modal && openBtn) {
-    // Default state: fallback shown, video hidden. The real 60–90s video reveals
-    // itself only once it successfully loads (drop it at /assets/aris-briefing.mp4).
-    var revealVideo = function () {
-      if (!video) return;
-      video.hidden = false;
-      if (fallback) fallback.hidden = true;
-      if (modal.classList.contains("open")) {
-        var p = video.play();
-        if (p && typeof p.catch === "function") p.catch(function () {});
-      }
-    };
-    var showFallback = function () {
-      if (video) video.hidden = true;
-      if (fallback) fallback.hidden = false;
-    };
-    if (video) {
-      video.addEventListener("loadeddata", revealVideo);
-      video.addEventListener("error", showFallback, true);
-      var src = video.querySelector("source");
-      if (src) src.addEventListener("error", showFallback);
-    }
-    var openModal = function () {
-      modal.classList.add("open");
-      document.body.style.overflow = "hidden";
-      // Attempt to load the source; revealVideo fires if it works, showFallback if not.
-      if (video) { try { video.load(); } catch (e) {} }
-      if (typeof gtag === "function") gtag("event", "video_open", { location: "hero" });
-    };
-    var closeModal = function () {
-      modal.classList.remove("open");
-      document.body.style.overflow = "";
-      if (video && !video.hidden) { try { video.pause(); } catch (e) {} }
-    };
-    openBtn.addEventListener("click", openModal);
-    if (closeBtn) closeBtn.addEventListener("click", closeModal);
-    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
-    });
-  }
-
   /* ---------- Interactive parcel maps ---------- */
   var legacy = document.getElementById("mapLegacy");
   var aris = document.getElementById("mapAris");

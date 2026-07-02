@@ -88,10 +88,7 @@
             Get the Sealed 2026 Forecast Brief
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <button class="hero-play" id="heroPlay" type="button" aria-label="Watch the briefing">
-            <span class="play-ring"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-            <span>Watch the briefing<br /><span class="play-sub">A quick look · why parcels beat ZIP codes</span></span>
-          </button>
+          <a class="btn btn-ghost" href="#difference">See the Difference</a>
         </div>
         <ul class="trust">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Active deal conversations with top-5 analytics platforms</li>
@@ -220,8 +217,8 @@
         </article>
         <article class="card reveal">
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg></div>
-          <h3>Physics-Grounded Science</h3>
-          <p>Built on actual fire science — fuel loads, wind dynamics, terrain, defensible space. Not just satellite imagery and vibes.</p>
+          <h3>Physics <span class="text-fire">and</span> Statistics</h3>
+          <p>Two mechanisms, not one: physical fire science — fuel loads, wind dynamics, terrain, defensible space — fused with disciplined statistical learning. Using both is exactly what makes the model hold up under hostile actuarial scrutiny.</p>
         </article>
         <article class="card reveal">
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/></svg></div>
@@ -308,8 +305,8 @@
         </div>
         <div class="compare-row">
           <div class="label">Method</div>
-          <div class="col-legacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>Statistical correlation</div>
-          <div class="col-aris"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Physics-grounded fire science</div>
+          <div class="col-legacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>Statistical correlation alone</div>
+          <div class="col-aris"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Physics <em>and</em> statistics, combined</div>
         </div>
         <div class="compare-row">
           <div class="label">Alignment</div>
@@ -590,28 +587,6 @@
     }
   </style>
 
-  <!-- ===================== VIDEO MODAL ===================== -->
-  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="ARIS 90-second briefing">
-    <div class="video-modal__inner">
-      <button class="video-modal__close" id="videoClose" type="button" aria-label="Close video">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-      <!-- Drop the real 60–90s hero video at /assets/aris-briefing.mp4 (poster optional).
-           If the file is absent, the graceful fallback below is shown instead. -->
-      <video id="arisVideo" controls preload="none" playsinline poster="/assets/hero-fire.jpg" hidden>
-        <source src="/assets/aris-briefing.mp4" type="video/mp4" />
-      </video>
-      <div class="video-fallback" id="videoFallback">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m23 7-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
-        <h3>The briefing is on its way.</h3>
-        <p>Our 90-second sealed-forecast briefing is being finalized. Want it the moment it drops — plus the one-page brief now? Request it and we'll send both.</p>
-        <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Send%20me%20the%2090-second%20briefing%20%2B%20Sealed%202026%20Forecast%20Brief&body=Please%20send%20me%20the%20ARIS%2090-second%20briefing%20and%20the%20Sealed%202026%20Forecast%20Brief.">
-          Get the brief
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
   <div class="parcel-tip" id="parcelTip" aria-hidden="true"></div>
 
   <script src="/app.js"></script>
@@ -619,7 +594,6 @@
     // Track clicks on Contact (mailto) CTAs as GA4 events
     (function () {
       function ctaLocation(el) {
-        if (el.closest('.video-modal')) return 'video_modal';
         if (el.closest('#start')) return 'offers';
         if (el.closest('#insights')) return 'insights';
         if (el.closest('.cta-final') || el.closest('.aris-close')) return 'final_cta';
