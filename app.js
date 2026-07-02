@@ -28,30 +28,6 @@
   window.addEventListener("resize", function () {
     if (window.innerWidth > 940) closeMenu();
   });
-
-  // Scroll reveal
-  var reveals = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window) {
-    var io = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) {
-            e.target.classList.add("in");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-    );
-    reveals.forEach(function (el, i) {
-      // gentle stagger for items in the same grid
-      var sib = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
-      el.style.transitionDelay = Math.min(sib, 3) * 80 + "ms";
-      io.observe(el);
-    });
-  } else {
-    reveals.forEach(function (el) { el.classList.add("in"); });
-  }
 })();
 
 /* ARIS Risk Inc. — conversion layer interactions */
