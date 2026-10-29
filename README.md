@@ -27,7 +27,7 @@ python3 -m http.server 8000   # then open http://localhost:8000
 | `assets/og-image.png` | Social share card (1200×630) |
 | `assets/hero-fire.jpg` | Hero background (wildfire, on-brand) |
 | `assets/avatar-mike.jpg`, `assets/avatar-jared.jpg` | Founder photos |
-| `assets/avatar-curtis.svg` | Initials placeholder until a Curtis Theoret headshot exists |
+| Curtis team card | Headshot slot reads “Coming soon” until a photo exists |
 
 ## Brand
 
@@ -41,8 +41,9 @@ python3 -m http.server 8000   # then open http://localhost:8000
 The original Manus build referenced media that was never committed to the repo, so these are
 on-brand placeholders. Drop in the real files (keep the same filename, or update the `src`):
 
-- **Curtis Theoret headshot** → replace `assets/avatar-curtis.svg` (initials placeholder).
-  Do not invent a photo. Mike and Jared use `assets/avatar-mike.jpg` and `assets/avatar-jared.jpg`.
+- **Curtis Theoret headshot** → the team card shows a visible “Coming soon” label in the photo slot.
+  Replace that label with a real photo when Curtis sends one. Do not invent a photo.
+  Mike and Jared use `assets/avatar-mike.jpg` and `assets/avatar-jared.jpg`.
 - **Hero briefing video** → not wired on the current home page. Add the control
   back in `index.html` before dropping `assets/aris-briefing.mp4`.
 

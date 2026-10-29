@@ -262,6 +262,19 @@ section[id] { scroll-margin-top: 86px; }
 /* ---------- founders ---------- */
 .founder { display: flex; gap: 26px; align-items: flex-start; }
 .founder img { width: 104px; height: 104px; border-radius: 16px; object-fit: cover; flex: none; border: 1px solid var(--line-2); }
+.founder-soon {
+  width: 104px; height: 104px; border-radius: 16px; flex: none;
+  display: grid; place-items: center; text-align: center;
+  padding: 8px;
+  border: 2px solid var(--fire-1);
+  background: rgba(255, 106, 26, 0.16);
+  color: var(--fire-3);
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: .92rem;
+  line-height: 1.15;
+  letter-spacing: .01em;
+}
 .founder h3 { font-family: var(--font-head); font-weight: 900; color: var(--white); font-size: 1.45rem; }
 .founder .role { color: var(--fire-1); font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .1em; margin: 4px 0 14px; }
 .founder .links { display: flex; gap: 18px; margin-top: 16px; }
