@@ -1,19 +1,21 @@
-# ARIS Insights generator — weekly content velocity
+# ARIS Insights generator
 
-Drafts one publishable **Insights** post a week and, by default, opens a pull
-request for review. It's the content-velocity sibling of the `briefing/`
-pipeline: same secrets, same Claude model, same env-driven design — but instead
-of an audio briefing for the team, it produces a website article.
+Drafts one Insights note and, by default, opens a pull request for review.
+The public site does not promise a weekly cadence. The scheduled workflow can
+still open a draft for a person to accept or discard. Same secrets and Claude
+model as the `briefing/` pipeline.
 
 ## What it does
 
-1. **Gather** — runs ARIS-relevant search queries (legacy-model failure, the
-   California regulatory shift, parcel-level science, the wildfire-insurance
-   market) via Tavily and scrapes the results. Reuses `briefing.phase1_gather`.
-2. **Write** — Claude (`claude-opus-4-8`) writes one article in the ARIS voice
+1. **Gather** — runs ARIS-relevant search queries (fire science, mitigation
+   measures and rates, parcel loss, Prairie conditions) via Tavily and scrapes
+   the results. Reuses `briefing.phase1_gather`. It does not search competitor
+   scorecards.
+2. **Write** — Claude (`claude-opus-4-8`) writes one note in the ARIS voice
    and returns it as strict JSON. The prompt has hard guardrails: no fabricated
-   stats, no claimed customers/partners, never names "Verisk", and only asserts
-   ARIS capabilities already established on the site.
+   stats or grades, no customers or platform deals, no vendor comparisons, no
+   “audited for data leakage,” no weekly-cadence claim, and only the capabilities
+   promoted on the public site.
    - **Mandatory sourcing.** Every specific claim (stat, date, named event,
      quotation) must carry an inline `<a href>` citation to a URL from the
      gathered material, and the post returns a `sources` array. `write.py` then
@@ -29,7 +31,7 @@ of an audio briefing for the team, it produces a website article.
 
 The GitHub Actions workflow (`.github/workflows/weekly-insight.yml`) then opens a
 PR with the diff. **Nothing goes live without a human merge** — a deliberate
-choice, since this site is read by carriers, reinsurers, and analytics platforms.
+choice, since this site is read by carriers and reinsurers.
 
 ## Run it locally
 

@@ -4,9 +4,10 @@ Source gathering for Insights posts.
 Reuses the battle-tested Tavily search + BeautifulSoup scraper from the briefing
 pipeline (`briefing.phase1_gather`) so there's a single implementation to
 maintain. Only the search queries differ — these are tuned for the kind of
-material that makes a good ARIS Insights essay: legacy-model failures, the
-California regulatory shift, parcel-level / catastrophe-modeling science, and
-the wider wildfire-insurance market.
+material that makes a good ARIS Insights note: the sealed-forecast
+discipline, parcel-level fire science, California mitigation measures as they
+bear on rates, and Prairie wildfire conditions. Do not gather competitor
+scorecards.
 """
 
 import datetime
@@ -20,12 +21,12 @@ def target_search_queries(today: datetime.date) -> list[str]:
     month_year = today.strftime("%B %Y")
     year = today.strftime("%Y")
     return [
-        f"wildfire catastrophe model accuracy criticism {year}",
-        f"California wildfire insurance regulation FAIR Plan rate filing {month_year}",
-        f"parcel-level property risk modeling wildfire {year}",
-        f"P&C insurers exiting California wildfire losses {month_year}",
-        f"climate catastrophe model reinsurance pricing {year}",
-        f"ZestyAI CoreLogic Cape Analytics wildfire model {year}",
+        f"wildfire fuel terrain weather fire spread science {year}",
+        f"California wildfire mitigation measures insurance rates {month_year}",
+        f"parcel structure wildfire loss probability {year}",
+        f"exceedance probability catastrophe model open standards {year}",
+        f"Saskatchewan prairie wildfire risk {year}",
+        f"wildfire defensible space rescoring property {month_year}",
     ]
 
 
