@@ -54,17 +54,33 @@ ARTICLE_TEMPLATE = """<!doctype html>
         <span class="name">ARIS RISK INC.</span>
       </a>
       <nav class="nav-links" aria-label="Primary">
-        <a href="/#problem">The Problem</a>
-        <a href="/#difference">See the Difference</a>
-        <a href="/#how">How It Works</a>
+        <a href="/#model">The model</a>
         <a href="/#proof">Proof</a>
+        <a href="/#engine">The engine</a>
+        <a href="/#canada">Canada</a>
+        <a href="/#team">Team</a>
         <a href="/insights/">Insights</a>
+        <a href="/about/">About</a>
       </nav>
       <div class="nav-cta">
-        <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Request%20the%20Sealed%202026%20Forecast%20Brief">Get the Brief</a>
+        <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Request%20the%20sealed-forecast%20brief&amp;body=Please%20send%20the%20sealed-forecast%20brief.%0A%0AName%3A%0ACompany%3A%0ARole%3A">Request the brief</a>
       </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
     </div>
   </header>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/#model">The model</a>
+    <a href="/#proof">Proof</a>
+    <a href="/#engine">The engine</a>
+    <a href="/#canada">Canada</a>
+    <a href="/#team">Team</a>
+    <a href="/insights/">Insights</a>
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+    <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Request%20the%20sealed-forecast%20brief&amp;body=Please%20send%20the%20sealed-forecast%20brief.%0A%0AName%3A%0ACompany%3A%0ARole%3A">Request the brief</a>
+  </div>
   <article class="article">
     <a class="back-link" href="/insights/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All insights</a>
     <div class="meta"><span class="post__kicker">@@KICKER@@</span><span class="post__date">@@DATE_HUMAN@@</span></div>
@@ -72,31 +88,30 @@ ARTICLE_TEMPLATE = """<!doctype html>
     <p class="lede">@@LEDE@@</p>
 @@BODY@@
     <div class="article-cta">
-      <h3>See the standard for yourself</h3>
-      <p>Get the Sealed 2026 Forecast Brief, or book a 15-minute technical walkthrough with the team that built the model.</p>
-      <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Request%20the%20Sealed%202026%20Forecast%20Brief">
-        Get the Sealed 2026 Forecast Brief
+      <h3>Request the sealed-forecast brief</h3>
+      <p>Or talk to us about your portfolio. A founder replies.</p>
+      <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Request%20the%20sealed-forecast%20brief&amp;body=Please%20send%20the%20sealed-forecast%20brief.%0A%0AName%3A%0ACompany%3A%0ARole%3A">
+        Request the sealed-forecast brief
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
   </article>
 
-  <footer class="aris-footer">
-    <div class="aris-footer__inner">
-      <p class="aris-footer__brand">ARIS Risk Inc.</p>
-      <p class="aris-footer__tagline">Prediction, graded by reality.</p>
-      <p class="aris-footer__contact"><a href="mailto:partnerships@arisriskinc.com">partnerships@arisriskinc.com</a></p>
-      <p class="aris-footer__copy">&copy; 2026 ARIS Risk Inc. All Rights Reserved.</p>
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="site-footer__brand">ARIS Risk Inc.</p>
+      <p class="site-footer__tagline">Prediction, graded by reality.</p>
+      <nav class="site-footer__links" aria-label="Footer">
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/insights/">Insights</a>
+      </nav>
+      <p class="site-footer__contact"><a href="mailto:partnerships@arisriskinc.com">partnerships@arisriskinc.com</a></p>
+      <p class="site-footer__copy">&copy; 2026 ARIS Risk Inc. All Rights Reserved.</p>
     </div>
   </footer>
-  <style>
-    .aris-footer { border-top: 1px solid rgba(255,255,255,0.08); background: #0e1b30; padding: 2.5rem 1.5rem; }
-    .aris-footer__inner { max-width: 760px; margin: 0 auto; text-align: center; }
-    .aris-footer__brand { font-family: "Outfit", sans-serif; font-weight: 700; color: #fff; letter-spacing: .02em; margin-bottom:.35rem; }
-    .aris-footer__tagline { font-family: "Outfit", sans-serif; font-weight: 600; color: #ff6a1a; font-size:.95rem; margin-bottom:.75rem; }
-    .aris-footer__contact a { color: #ff6a1a; }
-    .aris-footer__copy { margin-top:.75rem; font-size:.8rem; color:#94a3b8; }
-  </style>
+  <script src="/app.js"></script>
 </body>
 </html>
 """
