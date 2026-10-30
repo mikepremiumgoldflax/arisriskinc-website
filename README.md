@@ -1,6 +1,6 @@
 # ARIS Risk Inc. — Website
 
-Marketing site for ARIS Risk Inc. — parcel-level wildfire risk intelligence for P&C insurance.
+Marketing site for ARIS Risk Inc. — physics-based wildfire risk, building by building.
 
 Live: **https://www.arisriskinc.com** (GitHub Pages, custom domain via `CNAME`).
 
@@ -51,11 +51,13 @@ on-brand placeholders. Drop in the real files (keep the same filename, or update
 
 The homepage is built to convert, not just educate:
 
-- **Proof** (`#proof`) — sealed forecast, sealed grading method, published grade,
-  and “100% reproducible bit-for-bit.” Do not add an audit-for-leakage claim,
-  a platform-deal line, or a vendor comparison.
-- **Contact** — two mailto CTAs: *Request the sealed-forecast brief* and
-  *Talk to us about your portfolio*. Tracked as a GA4 `generate_lead` event.
+- **Proof** (`#proof`) — predictions sealed before the season and graded in the
+  open. The public line is “Every prediction we publish is sealed in advance
+  and checkable by anyone.” Do not restore “bit-for-bit,” “audited for data
+  leakage,” “blind-tested,” a platform-deal line, a price, or a vendor comparison.
+- **Contact** — the CTA is *Talk to us about a pilot.* A plain
+  `partnerships@arisriskinc.com` link sits beside it. Do not offer a
+  sealed-forecast brief or a parcel count. Tracked as a GA4 `generate_lead` event.
 - **Insights hub** (`/insights/`) — add a note by copying a file in `insights/`,
   then add a card inside the `INSIGHTS:CARDS` markers in `insights/index.html`
   and the homepage `#insights` grid. Do not promise a weekly cadence.

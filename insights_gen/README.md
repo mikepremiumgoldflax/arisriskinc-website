@@ -13,9 +13,13 @@ model as the `briefing/` pipeline.
    scorecards.
 2. **Write** — Claude (`claude-opus-4-8`) writes one note in the ARIS voice
    and returns it as strict JSON. The prompt has hard guardrails: no fabricated
-   stats or grades, no customers or platform deals, no vendor comparisons, no
-   “audited for data leakage,” no weekly-cadence claim, and only the capabilities
-   promoted on the public site.
+   stats or grades, no customers or platform deals, no live pricing, no vendor
+   comparisons, no “bit-for-bit” or “audited for data leakage” claim, no
+   “Sealed 2026 Forecast Brief,” no parcel-count claim, no mandate claim about
+   California, no weekly-cadence claim, and only the capabilities promoted on
+   the public site. `write.py` rejects a draft that revives those retired lines.
+   Oasis may be named only as the loss-modelling platform the output is built
+   to plug into. The public CTA is “Talk to us about a pilot.”
    - **Mandatory sourcing.** Every specific claim (stat, date, named event,
      quotation) must carry an inline `<a href>` citation to a URL from the
      gathered material, and the post returns a `sources` array. `write.py` then
