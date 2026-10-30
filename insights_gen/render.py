@@ -63,7 +63,7 @@ ARTICLE_TEMPLATE = """<!doctype html>
         <a href="/about/">About</a>
       </nav>
       <div class="nav-cta">
-        <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Request%20the%20sealed-forecast%20brief&amp;body=Please%20send%20the%20sealed-forecast%20brief.%0A%0AName%3A%0ACompany%3A%0ARole%3A">Request the brief</a>
+        <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Talk%20to%20us%20about%20a%20pilot&amp;body=I%27d%20like%20to%20talk%20about%20a%20pilot.%0A%0AName%3A%0ACompany%3A%0ARole%3A">Talk to us about a pilot.</a>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -79,7 +79,7 @@ ARTICLE_TEMPLATE = """<!doctype html>
     <a href="/insights/">Insights</a>
     <a href="/about/">About</a>
     <a href="/contact/">Contact</a>
-    <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Request%20the%20sealed-forecast%20brief&amp;body=Please%20send%20the%20sealed-forecast%20brief.%0A%0AName%3A%0ACompany%3A%0ARole%3A">Request the brief</a>
+    <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Talk%20to%20us%20about%20a%20pilot&amp;body=I%27d%20like%20to%20talk%20about%20a%20pilot.%0A%0AName%3A%0ACompany%3A%0ARole%3A">Talk to us about a pilot.</a>
   </div>
   <article class="article">
     <a class="back-link" href="/insights/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All insights</a>
@@ -88,10 +88,10 @@ ARTICLE_TEMPLATE = """<!doctype html>
     <p class="lede">@@LEDE@@</p>
 @@BODY@@
     <div class="article-cta">
-      <h3>Request the sealed-forecast brief</h3>
-      <p>Or talk to us about your portfolio. A founder replies.</p>
-      <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Request%20the%20sealed-forecast%20brief&amp;body=Please%20send%20the%20sealed-forecast%20brief.%0A%0AName%3A%0ACompany%3A%0ARole%3A">
-        Request the sealed-forecast brief
+      <h3>Talk to us about a pilot.</h3>
+      <p>A founder replies. Or email <a href="mailto:partnerships@arisriskinc.com">partnerships@arisriskinc.com</a>.</p>
+      <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Talk%20to%20us%20about%20a%20pilot&amp;body=I%27d%20like%20to%20talk%20about%20a%20pilot.%0A%0AName%3A%0ACompany%3A%0ARole%3A">
+        Talk to us about a pilot.
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>

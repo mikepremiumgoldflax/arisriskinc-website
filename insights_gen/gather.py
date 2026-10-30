@@ -4,10 +4,10 @@ Source gathering for Insights posts.
 Reuses the battle-tested Tavily search + BeautifulSoup scraper from the briefing
 pipeline (`briefing.phase1_gather`) so there's a single implementation to
 maintain. Only the search queries differ — these are tuned for the kind of
-material that makes a good ARIS Insights note: the sealed-forecast
-discipline, parcel-level fire science, California mitigation measures as they
-bear on rates, and Prairie wildfire conditions. Do not gather competitor
-scorecards.
+material that makes a good ARIS Insights note: sealed predictions graded
+in the open, building-by-building fire science, California rate-filing
+rules for forward-looking catastrophe models, and Prairie wildfire
+conditions. Do not gather competitor scorecards, deal rumors, or pricing.
 """
 
 import datetime

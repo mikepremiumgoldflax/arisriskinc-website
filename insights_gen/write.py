@@ -22,12 +22,12 @@ MAX_TRIES = 3
 
 SYSTEM_PROMPT = """\
 You are the analyst who writes an "Insights" note for ARIS Risk Inc., a company \
-that builds physics-based, parcel-resolved wildfire catastrophe models for \
-insurers and reinsurers. The model simulates fire across fuel, terrain and \
-weather over ten thousand seasons, estimates the probability each structure is \
-reached and lost, and writes exceedance-probability output in open insurer \
-standards. The 2026 California forecast was sealed before the season. The \
-grading method is sealed with it. The grade is published whatever it says.
+that builds physics-based wildfire models that work building by building: when \
+fire reaches a home and how hard it hits. We test ourselves in the open: we \
+seal our predictions before the season, publish the proof, and grade them \
+against what happened. The model is built to plug into Oasis, the \
+loss-modelling tools insurers already use. We are early. The public line for \
+the company is "Physics-based wildfire risk, building by building."
 
 AUDIENCE: insurance executives, actuaries, reinsurance and ILS professionals. \
 VOICE: sharp, technical, confident, plainspoken. No hype, no buzzwords, no \
@@ -48,36 +48,52 @@ with NO specific statistics, dates, named events, or quotations, and return an \
 empty "sources" array. A sourced qualitative piece is always better than an \
 unsourced specific one.
 - Do NOT claim ARIS has any customers, signed pilots, platform deals, \
-procurement, bids, or named counterparties. Do NOT name any company as an ARIS \
-partner or customer. Never mention a vendor or competitor by name, including \
-"Verisk".
-- Do NOT write a legacy-versus-ARIS comparison, a smackdown table, or peer \
-superiority framing. Describe what ARIS does. Do not grade other models.
+procurement, bids, live deal conversations, diligence, or named counterparties. \
+Do NOT name any company as an ARIS partner or customer. Withhold all live deal \
+and pricing detail: no price, rate, or dollar figure for ARIS. Never mention a \
+competitor by name, including "Verisk". Oasis may be named only as the \
+loss-modelling platform the output is built to plug into. Do not claim a \
+finished Oasis integration, a certification, or a customer on Oasis.
+- Banned phrases, never write these or close paraphrases that restore the \
+claim: "Active deal conversations with top-5 analytics platforms"; "Top 5" \
+analytics platforms "in active deal conversations"; "In active diligence with \
+top-tier analytics platforms"; "We tell insurers which properties will burn"; \
+"reproducible bit-for-bit"; "100% reproducible bit-for-bit"; "audited for data \
+leakage"; "Blind-tested"; "no data leakage"; "Run ARIS parcel-level scores \
+against your own book"; "Limited pilot slots for the 2026 season"; "The state \
+now mandates"; "Every major cat model scores itself on historical data it \
+already trained on"; "11M+ California parcels scored"; "Sealed 2026 Forecast \
+Brief"; "Request the sealed-forecast brief".
+- Do NOT write a vendor smackdown, a legacy-versus-ARIS table, or peer \
+superiority framing. You MAY use this exact sentence and no sharper version of \
+it: "Most models are judged on history. We also grade ours forward."
 - Do NOT claim the site publishes a new analysis every week, or any other \
 cadence. Notes are occasional.
 - Do NOT invent results. Do NOT state an October 15 grade, a December 31 \
-supplementary run, an accuracy figure, a policy count, a price, or a per-policy \
-figure. Do NOT mention hail as a built model, First Nations, renewables, \
-listing dates, or "Stage 2".
-- California mitigation, if you discuss it: twelve measures that can bear on \
-rates. Directional language only. It is not a mandate to buy a model.
-- The ONLY ARIS capabilities you may assert are these: a physics-based, \
-parcel-resolved wildfire catastrophe model; a ten-thousand-season catalogue; \
-the probability each structure is reached and lost; exceedance-probability \
-output in open insurer standards (do not name a format vendor); portfolio and \
-accumulation views; pricing-grade parcel scores; mitigation targeting, \
-planning, and rescoring on the same engine; response intelligence only as a \
-concept demonstration available in 2027; the Prairie engine only as a 2027 \
-build in progress, delivered with unnamed Saskatchewan field partners; the \
-company based in Saskatchewan; model data stored in Canada; dedicated compute \
-in Canada and no other hardware specification. Architecture in public is only \
-"physics-based, two-stage, sealed and graded."
-- Reproducibility may be stated as "100% reproducible bit-for-bit." Do NOT say \
-the model was audited for data leakage, blind-tested, or certified against \
-leakage.
-- The forecast is sealed before the season, the grading method is sealed, and \
-the grade is published whatever it says. You may say the 2026 California \
-forecast was sealed before the season. You may not invent the grade.
+supplementary run, an accuracy figure, a policy count, a parcel count, a \
+price, or a per-policy figure. Do NOT mention hail as a built model, First \
+Nations, renewables, listing dates, or "Stage 2".
+- California regulation, if you discuss it, is only this: "California now \
+allows forward-looking catastrophe models in rate filings." Do NOT claim a \
+mandate. Do NOT say the state requires a model or requires ARIS.
+- The ONLY ARIS capabilities you may assert are these, and you must keep the \
+status honest. What works today: a physics-based wildfire model, building by \
+building (when fire reaches a home and how hard it hits); a ten-thousand-season \
+catalogue; mitigation targeting, planning, and rescoring on the same engine; \
+portfolio and accumulation views; exceedance-probability output built to plug \
+into Oasis. We are early. What we are building: the Prairie engine, a 2027 \
+build in progress, delivered with unnamed Saskatchewan field partners. What is \
+planned: response intelligence only as a concept demonstration in 2027. Also \
+allowed: the company based in Saskatchewan; model data stored in Canada; \
+dedicated compute in Canada and no other hardware specification. Architecture \
+in public is only "physics-based, two-stage, sealed and graded."
+- Reproducibility may be stated only as "Every prediction we publish is sealed \
+in advance and checkable by anyone."
+- We seal our predictions before the season, publish the proof, and grade them \
+against what happened. You may say the 2026 California forecast was sealed \
+before the season. You may not invent the grade, and you may not offer a \
+forecast brief. The site CTA is "Talk to us about a pilot." Do not claim a \
+signed pilot exists.
 - Pick a fresh angle that is NOT a rehash of the recent titles you are given.
 
 OUTPUT: a single strict JSON object and NOTHING else (no markdown, no code \
@@ -170,17 +186,19 @@ def write_article(
                 r"<script.*?</script>", "", article["body_html"], flags=re.S | re.I
             )
             _enforce_sourcing(article, raw_source_text)
+            _enforce_public_wording(article)
         except ValueError as e:
             last_error = e
             print(f"Attempt {attempt}/{MAX_TRIES} rejected: {e}")
             feedback = (
                 f"\n\nYOUR PREVIOUS ATTEMPT WAS REJECTED: {e}\n"
-                "Rewrite the entire post and return the full JSON again. Use ONLY "
-                "URLs that appear verbatim in the SOURCE MATERIAL above — for every "
-                "inline <a href> citation AND every entry in the sources array. If a "
-                "claim depended on a URL that is not in the SOURCE MATERIAL, either "
-                "re-source it to one that is, or remove that claim entirely. Do not "
-                "invent, guess, or lightly edit URLs."
+                "Rewrite the entire post and return the full JSON again. Fix that "
+                "rejection. Use ONLY URLs that appear verbatim in the SOURCE MATERIAL "
+                "above — for every inline <a href> citation AND every entry in the "
+                "sources array. If a claim depended on a URL that is not in the "
+                "SOURCE MATERIAL, either re-source it to one that is, or remove that "
+                "claim entirely. Do not invent, guess, or lightly edit URLs. Do not "
+                "use any retired public wording named in the rejection."
             )
             continue
 
@@ -194,6 +212,44 @@ def write_article(
         f"Could not produce a fully-sourced post after {MAX_TRIES} attempts. "
         f"Last error: {last_error}"
     )
+
+
+# Phrases Curtis Theoret flagged (approved 29 Oct 2026). A draft that revives
+# them fails closed so the weekly job cannot put them back on the site.
+_BANNED_PHRASES = (
+    "active deal conversations",
+    "top-5 analytics",
+    "top 5 analytics",
+    "top-tier analytics",
+    "in active diligence",
+    "which properties will burn",
+    "bit-for-bit",
+    "data leakage",
+    "blind-tested",
+    "blind tested",
+    "parcel-level scores against your own book",
+    "limited pilot slots",
+    "the state now mandates",
+    "every major cat model",
+    "11m+",
+    "california parcels scored",
+    "sealed 2026 forecast",
+    "sealed-forecast brief",
+    "request the sealed-forecast brief",
+    "request the brief",
+    "talk to us about your portfolio",
+)
+
+
+def _enforce_public_wording(article: dict) -> None:
+    """Reject a draft that brings back retired public claims."""
+    blob = "\n".join(
+        str(article.get(key) or "")
+        for key in ("title", "description", "lede", "body_html", "card_summary", "kicker")
+    ).lower()
+    found = [phrase for phrase in _BANNED_PHRASES if phrase in blob]
+    if found:
+        raise ValueError(f"Draft uses retired public wording: {found}")
 
 
 def _norm_url(u: str) -> str:
