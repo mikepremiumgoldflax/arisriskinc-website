@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JT9DW5SMTN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JT9DW5SMTN');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The 0.92 that collapsed to 0.75 one kilometer over — ARIS Risk Inc.</title>
+  <meta name="description" content="A new Palisades Fire study shows how structure-loss models can look excellent on random splits and fall apart when tested on ground they have never seen." />
+  <link rel="canonical" href="https://www.arisriskinc.com/insights/skill-that-doesnt-travel.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.arisriskinc.com/insights/skill-that-doesnt-travel.html" />
+  <meta property="og:title" content="The 0.92 that collapsed to 0.75 one kilometer over" />
+  <meta property="og:description" content="A new Palisades Fire study shows how structure-loss models can look excellent on random splits and fall apart when tested on ground they have never seen." />
+  <meta property="og:image" content="https://www.arisriskinc.com/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#0a1424" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="nav scrolled" id="nav">
+    <div class="container">
+      <a class="brand" href="/" aria-label="ARIS Risk Inc. home">
+        <img class="mark" src="/assets/aris-emblem.webp" alt="ARIS Risk Inc." />
+        <span class="name">ARIS RISK INC.</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#model">The model</a>
+        <a href="/#proof">Proof</a>
+        <a href="/#engine">The engine</a>
+        <a href="/#canada">Canada</a>
+        <a href="/#team">Team</a>
+        <a href="/insights/">Insights</a>
+        <a href="/about/">About</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Talk%20to%20us%20about%20a%20pilot&amp;body=I%27d%20like%20to%20talk%20about%20a%20pilot.%0A%0AName%3A%0ACompany%3A%0ARole%3A">Talk to us about a pilot.</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/#model">The model</a>
+    <a href="/#proof">Proof</a>
+    <a href="/#engine">The engine</a>
+    <a href="/#canada">Canada</a>
+    <a href="/#team">Team</a>
+    <a href="/insights/">Insights</a>
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+    <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Talk%20to%20us%20about%20a%20pilot&amp;body=I%27d%20like%20to%20talk%20about%20a%20pilot.%0A%0AName%3A%0ACompany%3A%0ARole%3A">Talk to us about a pilot.</a>
+  </div>
+  <article class="article">
+    <a class="back-link" href="/insights/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All insights</a>
+    <div class="meta"><span class="post__kicker">Methodology</span><span class="post__date">November 2026</span></div>
+    <h1>The 0.92 that collapsed to 0.75 one kilometer over</h1>
+    <p class="lede">A model that scores brilliantly on a random test split can be worthless the moment you move it to a neighborhood it has never seen. A new analysis of the Palisades Fire makes the point in one brutal number, and it is the number every actuary buying a wildfire model should ask about first.</p>
+    <h2>A number that looked like skill</h2><p>A new study of the <a href="https://arxiv.org/html/2608.22293v2">January 2025 Palisades Fire</a> is a quiet warning for anyone who buys or builds structure-loss models. The authors linked <a href="https://arxiv.org/html/2608.22293v2">12,081 CAL FIRE damage inspections</a> to pre-fire vegetation, surface temperature, fuels, ten-meter terrain and building footprints, then modeled which homes burned — <a href="https://arxiv.org/html/2608.22293v2">5,566 of 9,883 inspected residential structures</a> were destroyed. Under random cross-validation, their gradient-boosting model posted a <a href="https://arxiv.org/html/2608.22293v2">ROC-AUC of 0.92</a>, which reads as excellent discrimination. Then they re-ran the test under spatial block validation, holding out whole one-kilometer tiles the model had never trained on. Performance fell to <a href="https://arxiv.org/html/2608.22293v2">0.75</a>.</p><p>Same data, same features, same event. The only thing that changed was whether the test homes sat next door to the training homes. Most of the apparent skill was the model recognizing its own neighborhoods, not learning how fire destroys a house.</p><h2>Why spatial generalization is the real test</h2><p>Random splits let a model peek across the street. Homes a block apart share weather, slope, vegetation and construction era, so a model tested on a random hold-out is effectively quizzed on streets it has already studied. Block validation severs that tie and asks the only question that matters for a book of business: does this travel to ground you have not seen. In the Palisades work it mostly did not. The honest finding is that an interpretable logistic model performed <a href="https://arxiv.org/html/2608.22293v2">about as well under spatial blocking and was better calibrated</a> — the fancier model's edge was an illusion of the test design.</p><p>What did carry real signal is instructive. Neighborhood building count was the <a href="https://arxiv.org/html/2608.22293v2">strongest predictor, with destruction odds rising roughly fourfold per standard deviation in buildings within 100 meters</a>, and the information concentrated at the <a href="https://arxiv.org/html/2608.22293v2">100-to-300-meter neighborhood scale</a>. That is not a vegetation story. It is a story about structures igniting structures. The authors are blunt about what their approach can and cannot do:</p><blockquote>The results position open geospatial modeling as a neighborhood-scale screening tool rather than a parcel-level prediction system.</blockquote><p>This matches what we saw on the ground elsewhere in 2026. In the <a href="https://theconversation.com/why-the-spokane-wildfires-became-so-catastrophic-288895">Spokane Complex Fire</a>, which destroyed more than 800 homes, the damage was driven by fire entering the wildland-urban interface and then <a href="https://theconversation.com/why-the-spokane-wildfires-became-so-catastrophic-288895">propagating from one structure to the next</a>. Once buildings become fuel, you are no longer modeling a landscape. You are modeling a chain of ignitions through a built fabric, and statistical fits calibrated to one town's street grid have no particular reason to describe another's.</p><h2>What generalizes is physics</h2><p>A correlation learned on one neighborhood is a hostage to that neighborhood. The mechanism — radiant heat, ember flux, the geometry of structure-to-structure spread — is the same everywhere. That is the case for a physics-based approach rather than a pattern fit: you solve for when fire reaches a home and how hard it hits, building by building, and the solution does not depend on having already seen the answer for the block next door.</p><p>That is how ARIS is built. Our model is physics-based and two-stage, sealed and graded, running the same engine from a ten-thousand-season catalogue through mitigation targeting and rescoring to portfolio and accumulation views, with exceedance-probability output built to plug into Oasis. We are a Saskatchewan company and our model data and compute sit in Canada. We are early, and we are deliberate about how we prove skill. Every prediction we publish is sealed in advance and checkable by anyone. Our 2026 California forecast was sealed before the season. Most models are judged on history. We also grade ours forward — because the test that counts is the ground the model has not seen yet.</p><p>If you are evaluating any wildfire model, ask how it scores when the test set is held out by geography, not at random. The gap between those two numbers is where your tail risk hides. Talk to us about a pilot.</p>
+    <h2>Sources</h2>
+    <ul><li><a href="https://arxiv.org/html/2608.22293v2" rel="nofollow noopener" target="_blank">Explainable GeoAI for urban wildfire structure loss: the 2025 Palisades Fire</a></li><li><a href="https://theconversation.com/why-the-spokane-wildfires-became-so-catastrophic-288895" rel="nofollow noopener" target="_blank">Why the Spokane wildfires became so catastrophic</a></li></ul>
+    <div class="article-cta">
+      <h3>Talk to us about a pilot.</h3>
+      <p>A founder replies. Or email <a href="mailto:partnerships@arisriskinc.com">partnerships@arisriskinc.com</a>.</p>
+      <a class="btn btn-primary" href="mailto:partnerships@arisriskinc.com?subject=Talk%20to%20us%20about%20a%20pilot&amp;body=I%27d%20like%20to%20talk%20about%20a%20pilot.%0A%0AName%3A%0ACompany%3A%0ARole%3A">
+        Talk to us about a pilot.
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </article>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="site-footer__brand">ARIS Risk Inc.</p>
+      <p class="site-footer__tagline">Prediction, graded by reality.</p>
+      <nav class="site-footer__links" aria-label="Footer">
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/insights/">Insights</a>
+      </nav>
+      <p class="site-footer__contact"><a href="mailto:partnerships@arisriskinc.com">partnerships@arisriskinc.com</a></p>
+      <p class="site-footer__copy">&copy; 2026 ARIS Risk Inc. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <script src="/app.js"></script>
+</body>
+</html>
